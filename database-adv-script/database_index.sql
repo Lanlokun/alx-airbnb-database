@@ -1,5 +1,3 @@
--- database_index.sql
-
 -- Index on user_id in the Users table for faster lookups and JOINs
 CREATE INDEX idx_user_id ON Users(user_id);
 
