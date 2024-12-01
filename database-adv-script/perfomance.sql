@@ -37,8 +37,6 @@ JOIN Users u ON b.user_id = u.user_id
 JOIN Property p ON b.property_id = p.property_id
 JOIN Payment pay ON b.booking_id = pay.booking_id;
 
--- Refactored query to improve performance by minimizing unnecessary joins and using indexes
--- Assuming we have indexes on user_id, property_id, booking_id in relevant tables
 SELECT 
     b.booking_id, 
     b.booking_date, 
@@ -54,7 +52,8 @@ FROM Booking b
 INNER JOIN Users u ON b.user_id = u.user_id
 INNER JOIN Property p ON b.property_id = p.property_id
 LEFT JOIN Payment pay ON b.booking_id = pay.booking_id
-WHERE pay.payment_id IS NOT NULL; -- Only include bookings that have payments
+WHERE pay.payment_id IS NOT NULL
+AND p.price > 0;  -- Additional filter to exclude properties with no price set
 
 -- Analyze the performance of the refactored query using EXPLAIN
 EXPLAIN 
